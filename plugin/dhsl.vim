@@ -5,7 +5,7 @@ if exists('g:loaded_dhsl')
 endif
 g:loaded_dhsl = 1
 
-# Default Ruler Format (Moved from your .vimrc to the plugin)
+# Default Ruler Format
 var r_fmt = "%100(%=%*%)"
 r_fmt ..= " Byte %o/%{getfsize(expand(@%))},"
 r_fmt ..= " Line %l/%L,"
