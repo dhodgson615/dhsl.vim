@@ -31,7 +31,8 @@ export def SetStatusLine()
 
     if win_w > 60 | sl ..= " %* %.20{&filetype} %*" | endif
 
-    sl ..= "%#Directory#%{dhsl#GetGitBranch()}%*"
+    # sl ..= "%#Directory#%{dhsl#GetGitBranch()}%*"
+    sl ..= " %{dhsl#GetGitBranch()}"
     sl ..= "%="
 
     if win_w > 80 | sl ..= " %{dhsl#GetCharInfo()}" | endif
