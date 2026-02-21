@@ -18,9 +18,9 @@ r_fmt ..= " %{wordcount().words} Words %5.P %*"
 
 augroup DhslUpdate
     autocmd!
-    autocmd VimEnter,BufEnter,WinEnter,ModeChanged,FocusGained *:* dhsl.SetStatusLine()
-    autocmd BufReadPost,BufWritePost * dhsl.UpdateBranch()
-    autocmd OptionSet ruler dhsl.SetStatusLine()
+    autocmd VimEnter,BufEnter,WinEnter,ModeChanged *:* dhsl#SetStatusLine()
+    autocmd BufReadPost,BufWritePost * dhsl#UpdateBranch()
+    autocmd OptionSet ruler dhsl#SetStatusLine()
 augroup END
 
 command! DhslToggle {
