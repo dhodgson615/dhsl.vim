@@ -25,17 +25,17 @@ augroup END
 
 command! DhslToggle {
     if !exists('g:dhsl_disabled') | g:dhsl_disabled = false | endif
-
     g:dhsl_disabled = !g:dhsl_disabled
 
     if g:dhsl_disabled
         set statusline&
         echo "DHSL Disabled"
     else
-        dhsl.SetStatusLine()
+        dhsl#SetStatusLine()
         echo "DHSL Enabled"
     endif
 }
 
-dhsl.UpdateBranch()
-dhsl.SetStatusLine()
+# CHANGE: Use # instead of . for initial calls
+dhsl#UpdateBranch()
+dhsl#SetStatusLine()
