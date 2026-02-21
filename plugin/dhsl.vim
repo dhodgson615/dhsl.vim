@@ -36,6 +36,5 @@ command! DhslToggle {
     endif
 }
 
-# CHANGE: Use # instead of . for initial calls
 dhsl#UpdateBranch()
 dhsl#SetStatusLine()
