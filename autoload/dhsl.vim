@@ -9,6 +9,25 @@ export def UpdateBranch()
     b:dhsl_git_branch = empty(branch) ? "" : "  " .. branch .. " "
 enddef
 
+export def GetAleStatus(): string
+    if !exists('g:loaded_ale') | return '' | endif
+
+    var counts = ale#statusline#Count(bufnr(''))
+    var res = ""
+
+    if counts.total == 0 | return "" | endif
+
+    if counts.error > 0 || counts.style_error > 0
+        res ..= " %#ErrorMsg# E:" .. (counts.error + counts.style_error) .. " %*"
+    endif
+
+    if counts.warning > 0 || counts.style_warning > 0
+        res ..= " %#WarningMsg# W:" .. (counts.warning + counts.style_warning) .. " %*"
+    endif
+
+    return res
+enddef
+
 export def GetCharInfo(): string
     var col_num = charcol('.')
     var line_str = getline('.')
@@ -27,12 +46,13 @@ export def SetStatusLine()
     var win_w = winwidth(0)
     var sl = "%* %<"
 
-    sl ..= " %{&ff} > %{strlen(&fenc) ? &fenc : '(none)'}"
+    sl ..= " %{&modified ? '[+] ' : ''}"
+    sl ..= "%{&ff} > %{strlen(&fenc) ? &fenc : '(none)'}"
 
     if win_w > 60 | sl ..= " %* %.20{&filetype} %*" | endif
 
-    # sl ..= "%#Directory#%{dhsl#GetGitBranch()}%*"
     sl ..= " %{dhsl#GetGitBranch()}"
+    sl ..= "%{dhsl#GetAleStatus()}"
     sl ..= "%="
 
     if win_w > 80 | sl ..= " %{dhsl#GetCharInfo()}" | endif

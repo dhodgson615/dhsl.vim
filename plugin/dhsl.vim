@@ -1,7 +1,6 @@
 vim9script
 
 if exists('g:loaded_dhsl') | finish | endif
-
 g:loaded_dhsl = 1
 
 import autoload 'dhsl.vim'
@@ -19,12 +18,17 @@ r_fmt ..= " %{wordcount().words} Words %5.P %*"
 augroup DhslUpdate
     autocmd!
     autocmd VimEnter,BufEnter,WinEnter,ModeChanged *:* dhsl#SetStatusLine()
-    autocmd BufReadPost,BufWritePost * dhsl#UpdateBranch()
+    autocmd FocusGained,BufReadPost,BufWritePost * dhsl#UpdateBranch()
     autocmd OptionSet ruler dhsl#SetStatusLine()
+
+    if exists('#User#ALEPost')
+        autocmd User ALEPost dhsl#SetStatusLine()
+    endif
 augroup END
 
 command! DhslToggle {
     if !exists('g:dhsl_disabled') | g:dhsl_disabled = false | endif
+
     g:dhsl_disabled = !g:dhsl_disabled
 
     if g:dhsl_disabled
