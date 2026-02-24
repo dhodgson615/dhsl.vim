@@ -5,17 +5,36 @@ export def GetGitBranch(): string
 enddef
 
 export def UpdateBranch()
-    var branch = trim(system("git -C " .. shellescape(expand('%:p:h')) .. " branch --show-current 2>/dev/null"))
-    b:dhsl_git_branch = empty(branch) ? "" : "  " .. branch .. " "
+    var dir = expand('%:p:h')
+
+    if empty(dir) || !isdirectory(dir) | return | endif
+
+    var JobExit = (job, exit_status) => {
+        if exit_status == 0
+            var channel = job_getchannel(job)
+            var branch = trim(ch_readraw(channel))
+
+            b:dhsl_git_branch = empty(branch) ? "" : "  " .. branch .. " "
+
+            execute 'redrawstatus'
+        else
+            b:dhsl_git_branch = ""
+        endif
+    }
+
+    var cmd = ["git", "-C", dir, "branch", "--show-current"]
+
+    job_start(cmd, { "exit_cb": JobExit })
 enddef
 
 export def GetAleStatus(): string
     if !exists('g:loaded_ale') | return '' | endif
 
     var counts = ale#statusline#Count(bufnr(''))
-    var res = ""
 
     if counts.total == 0 | return "" | endif
+
+    var res = ""
 
     if counts.error > 0 || counts.style_error > 0
         res ..= " %#ErrorMsg# E:" .. (counts.error + counts.style_error) .. " %*"
