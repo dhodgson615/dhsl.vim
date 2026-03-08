@@ -1,3 +1,5 @@
+if has('nvim') | finish | endif
+
 vim9script
 
 if exists('g:loaded_dhsl') | finish | endif
