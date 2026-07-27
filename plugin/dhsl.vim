@@ -6,7 +6,17 @@ g:loaded_dhsl = 1
 
 import autoload 'dhsl.vim'
 
-var r_fmt = "%100(%=%*%) Byte %o/%{getfsize(expand(@%))}, Line %l/%L, Col %c%V, Pg %{winheight(0) ? line('.') / winheight(0) + 1 : 0}/%{winheight(0) ? line('$') / winheight(0) + 1 : 0}, %{wordcount().words} Words %5.P %*"
+var r_fmt = join([
+    '%100(%=%*%) ',
+    'Byte %o/%{getfsize(expand(@%))}, ',
+    'Line %l/%L, ',
+    'Col %c%V, ',
+    'Pg %{winheight(0) ? line(".") / winheight(0) + 1 : 0}/',
+    '%{winheight(0) ? line("$") / winheight(0) + 1 : 0}, ',
+    '%{wordcount().words} Words ',
+    '%5.P %*'
+], '')
+
 &rulerformat = r_fmt
 
 augroup DhslUpdate
