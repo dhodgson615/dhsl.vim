@@ -13,9 +13,7 @@ export def UpdateBranch()
         if exit_status == 0
             var channel = job_getchannel(job)
             var branch = trim(ch_readraw(channel))
-
             b:dhsl_git_branch = empty(branch) ? "" : "  " .. branch .. " "
-
             execute 'redrawstatus'
         else
             b:dhsl_git_branch = ""
